@@ -6,7 +6,14 @@ class ExpressionHandler:
         "cảm_ơn": "Cảm ơn 😘",
         "xin_chào": "Xin chào 🙋‍",
         "yêu": "Yêu ❤️",
-        "không": "Không 🤚"
+        "không": "Không 🤚",
+        "mẹ": "Mẹ 👩‍",
+        "tạm_biệt": "Tạm biệt 👋",
+        "xin_lỗi": "Xin lỗi 😔",
+        "ba": "Ba (3)",
+        "hai": "Hai (2)",
+        "một": "Một (1)",
+        "bốn": "Bốn (4)"
     }
 
     def __init__(self):
