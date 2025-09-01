@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>VSL Recognition</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #fefae0;
+      margin: 0;
+      padding: 20px;
+    }
+    .big-font {
+      color: #e76f51;
+      font-size: 60px;
+      border: 0.5rem solid #fcbf49;
+      border-radius: 2rem;
+      padding: 10px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    #video {
+      border: 5px solid #264653;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    .sentence-box {
+      margin-top: 20px;
+      font-size: 32px;
+      color: #264653;
+      background: #f4a261;
+      padding: 15px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      background: #2a9d8f;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #21867a;
+    }
+  </style>
+</head>
+<body>
+  <h1>ASL Recognition Demo</h1>
+  <img id="video" src="http://localhost:5000/video_feed" />
+  
+  <div id="word" class="big-font">...</div>
+  <div id="sentence" class="sentence-box">Câu: ...</div>
+  
+  <br>
+  <button onclick="resetSentence()">Đặt lại</button>
+  <button onclick="playTTS()">Đọc to</button>
+  <audio id="player" controls></audio>
+
+  <script>
+  function playTTS() {
+  fetch("http://127.0.0.1:5000/speak")
+    .then(res => res.blob())
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.play();
+    });
+    }
+
+  </script>
+
+
+  <script>
+    async function updatePrediction() {
+      try {
+        const res = await fetch("http://localhost:5000/prediction");
+        const data = await res.json();
+        console.log("Fetched prediction:", data);
+        document.getElementById("word").innerText = data.word;
+        document.getElementById("sentence").innerText = "Sentence: " + data.sentence;
+      } catch (err) {
+        console.log("Error fetching prediction", err);
+      }
+    }
+
+    async function resetSentence() {
+      await fetch("http://localhost:5000/reset");
+      document.getElementById("sentence").innerText = "Sentence: ...";
+    }
+
+    setInterval(updatePrediction, 1000); // update mỗi giây
+  </script>
+</body>
+</html>
