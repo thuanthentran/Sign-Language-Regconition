@@ -1,1 +1,14 @@
+<<<<<<< HEAD
 venv/
+=======
+
+venv/
+__pycache__/
+
+*.pyd
+*.dll
+*.so
+
+!data/
+!data/*.npy
+>>>>>>> origin/add-data

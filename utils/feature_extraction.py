@@ -84,6 +84,7 @@ def extract_face_result(face_results):
     :param face_results from mediapipe
     :return: features
     """
+<<<<<<< HEAD
     # Kiểm tra có landmark không và có ít nhất 1 khuôn mặt
     if face_results.multi_face_landmarks is not None and len(face_results.multi_face_landmarks) > 0:
         single_face = face_results.multi_face_landmarks[0]
@@ -98,6 +99,18 @@ def extract_face_result(face_results):
     else:
         # Trả về vector mặc định (ví dụ: toàn số 0) với đúng chiều dài đặc trưng khuôn mặt
         return [0] * 2  # Thay EXPECTED_FACE_FEATURE_LENGTH bằng số chiều phù hợp
+=======
+    # Get all the features from face results
+    single_face = face_results.multi_face_landmarks[0]
+
+    # Get all the landmark into a 2-d numpy array
+    face_array = np.array([
+        [lm.x, lm.y] for lm in single_face.landmark
+    ])
+
+    # Get the mean
+    return np.mean(face_array, axis=0)
+>>>>>>> origin/add-data
 
 
 def extract_features(mp_hands, face_results, hand_results):
